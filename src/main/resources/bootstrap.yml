@@ -1,0 +1,41 @@
+server:
+  port: 8877
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    hostname: ${COMPUTERNAME:localhost}
+
+spring:
+  application:
+    name: spring-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: creditService
+          uri: lb://CREDIT-SERVICE
+          predicates:
+            - Path=/credit-service/***
+        - id: clientService
+          uri: lb://CLIENT-SERVICE
+          predicates:
+            - Path=/client-service/***
+        - id: bankService
+          uri: lb://BANK-SERVICE
+          predicates:
+            - Path=/bank-service/***
+        - id: msMovements
+          uri: lb://MICROSERVICE-MOVEMENTS
+          predicates:
+            - Path=/msmovements/***
+        - id: tranferService
+          uri: lb://TRANSFERER-SERVICE
+          predicates:
+            - Path=/transferer-service/***
+        - id: operationService
+          uri: lb://OPERATIONS-SERVICE
+          predicates:
+            - Path=/operationservice/***
